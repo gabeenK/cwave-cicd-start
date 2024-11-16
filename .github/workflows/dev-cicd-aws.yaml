@@ -160,7 +160,7 @@ jobs:
     #       echo "No SARIF results file found." >> $GITHUB_STEP_SUMMARY
     #     fi
 
-load-test:
+  load-test:
     runs-on: ubuntu-latest
     environment: runner
     services:
