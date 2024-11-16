@@ -1,17 +1,15 @@
 #!/bin/bash
-cd /home/ec2-user/app
 
-# 환경 변수 설정
-export SERVER_PORT=8080
-export JAVA_OPTS="-Xms512m -Xmx1024m"
+# 헬스체크 엔드포인트 확인
+for i in {1..30}; do
+    HTTP_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/actuator/health)
+    if [ "$HTTP_RESPONSE" -eq 200 ]; then
+        echo "Application is running successfully!"
+        exit 0
+    fi
+    echo "Waiting for application to start... (Attempt: $i/30)"
+    sleep 2
+done
 
-# 애플리케이션 시작
-nohup java $JAVA_OPTS \
-    -Dserver.port=$SERVER_PORT \
-    -jar *.jar > /home/ec2-user/app/logs/application.log 2>&1 &
-
-# PID 저장
-echo $! > /home/ec2-user/app/application.pid
-
-# 시작 대기
-sleep 10
+echo "Application failed to start properly"
+exit 1
