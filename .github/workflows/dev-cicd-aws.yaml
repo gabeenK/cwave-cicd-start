@@ -160,8 +160,6 @@ jobs:
     #       echo "No SARIF results file found." >> $GITHUB_STEP_SUMMARY
     #     fi
 
-
-
 load-test:
     runs-on: ubuntu-latest
     environment: runner
@@ -259,8 +257,6 @@ load-test:
         env:
           K6_VIRTUAL_USERS: 10
           K6_DURATION: "30s"
-
-      
 
   build-and-upload:
     # needs: [verify-pipeline] 
