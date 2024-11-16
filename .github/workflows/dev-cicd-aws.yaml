@@ -1,10 +1,10 @@
-name: istory ci/cd dev pipeline
+ name: istory ci/cd dev pipeline
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop"]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "develop"]
 jobs:
   verify_pipeline:
     environment: runner
@@ -38,17 +38,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
     - name: 테스트 수행
       run: ./gradlew test
 
-    - name: 테스트 실패시 파이프라인 중단
+    - name: 테스트 검사 후 실패 시 파이프라인 중단
       if: failure()
       run: |
         echo "Tests failed! Pipeline will be stopped."
         exit 1
 
-     - name: 테스트 결과를 STEP Summary에 업로드
+    - name: 테스트 결과를 STEP Summary 에 업로드
       if: always()
       uses: actions/upload-artifact@v4
       with:
