@@ -219,7 +219,7 @@ jobs:
         run: |
           echo "ARTIFACT_NAME=springboot-$(date +'%Y%m%d-%H%M%S').jar" >> $GITHUB_ENV
 
-      - name: Create deployment package
+      - name: AWS Code Deploy 패키지 만들기 # (appspec.yml, scripts, zip)
         run: |
           mkdir -p deployment
           cp build/libs/*.jar deployment/${{ env.ARTIFACT_NAME }}
@@ -227,7 +227,7 @@ jobs:
           cp -r scripts deployment/
           cd deployment && zip -r ../deploy.zip .          
 
-      - name: Upload to S3
+      - name: 아티팩트 및 배포 패키지 s3 업로드
         run: |
           # JAR 파일 업로드
           aws s3 cp deployment/${{ env.ARTIFACT_NAME }} s3://${{ secrets.AWS_S3_BUCKET }}/artifacts/
